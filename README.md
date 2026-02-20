@@ -6,8 +6,6 @@ A Deep Learning based web application to predict probability of Heart Disease, D
 
 1.  **Python 3.10** or higher.
 2.  **MySQL Server** installed and running.
-    *   Default credentials assumed: User=`root`, Password=`bharath@1`
-    *   *To change credentials, update them in `database.py`.*
 
 ## 🚀 Installation & Setup
 
