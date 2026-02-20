@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="/" class="logo">Care AI</a>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/" class="nav-link"><span class="icon">📊</span> Dashboard</a></li>
+                    <li><a href="/predict/heart" class="nav-link"><span class="icon">❤️</span> Heart</a></li>
+                    <li><a href="/predict/diabetes" class="nav-link"><span class="icon">🩸</span> Diabetes</a></li>
+                    <li><a href="/predict/parkinsons" class="nav-link"><span class="icon">🧠</span> Parkinson's</a></li>
+
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>&copy; 2026 Care AI</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="container">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

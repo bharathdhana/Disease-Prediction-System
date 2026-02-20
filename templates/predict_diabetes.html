@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Diabetes Prediction</h2>
+    <form action="/predict/diabetes" method="POST">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Pregnancies</label>
+                <input type="number" name="pregnancies" required>
+            </div>
+            <div class="form-group">
+                <label>Glucose</label>
+                <input type="number" name="glucose" required>
+            </div>
+            <div class="form-group">
+                <label>Blood Pressure</label>
+                <input type="number" name="bloodpressure" required>
+            </div>
+            <div class="form-group">
+                <label>Skin Thickness</label>
+                <input type="number" name="skinthickness" required>
+            </div>
+            <div class="form-group">
+                <label>Insulin</label>
+                <input type="number" name="insulin" required>
+            </div>
+            <div class="form-group">
+                <label>BMI</label>
+                <input type="text" name="bmi" required>
+            </div>
+            <div class="form-group">
+                <label>Diabetes Pedigree Function</label>
+                <input type="text" name="dpf" required>
+            </div>
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" name="age" required>
+            </div>
+        </div>
+        <div class="button-group">
+            <button type="submit">Predict</button>
+            <button type="reset">Clear</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

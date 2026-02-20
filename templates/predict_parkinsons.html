@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Parkinson's Disease Prediction</h2>
+    <form action="/predict/parkinsons" method="POST">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>MDVP:Fo(Hz)</label>
+                <input type="text" name="mdvp_fo" required>
+            </div>
+            <div class="form-group">
+                <label>MDVP:Fhi(Hz)</label>
+                <input type="text" name="mdvp_fhi" required>
+            </div>
+            <div class="form-group">
+                <label>MDVP:Flo(Hz)</label>
+                <input type="text" name="mdvp_flo" required>
+            </div>
+            <div class="form-group">
+                <label>MDVP:Jitter(%)</label>
+                <input type="text" name="mdvp_jitter" required>
+            </div>
+            <div class="form-group">
+                <label>MDVP:Shimmer</label>
+                <input type="text" name="mdvp_shimmer" required>
+            </div>
+        </div>
+        <div class="button-group">
+            <button type="submit">Predict</button>
+            <button type="reset">Clear</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

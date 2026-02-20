@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>Prediction History</h2>
+        <!-- <a href="/" class="button">Back to Dashboard</a> --> <!-- Sidebar handles nav now -->
+    </div>
+
+    <!-- Embedding custom styles for the table here, or could move to style.css -->
+
+
+    <!-- Tools: Filter & Download -->
+    <div
+        style="background: rgba(0, 0, 0, 0.02); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid var(--border-color, #e2e8f0);">
+        <form method="get" action="/history"
+            style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;">
+
+            <div style="display: flex; gap: 1rem; flex: 1; min-width: 250px; align-items: flex-end;">
+                <div style="flex: 1;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 500;">Filter by
+                        Disease</label>
+                    <select name="disease_type" onchange="this.form.submit()"
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #ddd; background: #fff;">
+                        <option value="All">All Diseases</option>
+                        <option value="Heart Disease" {% if disease_type=='Heart Disease' %}selected{% endif %}>Heart
+                            Disease</option>
+                        <option value="Diabetes" {% if disease_type=='Diabetes' %}selected{% endif %}>Diabetes</option>
+                        <option value="Parkinson's" {% if disease_type=="Parkinson's" %}selected{% endif %}>Parkinson's
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="/download_history?format=csv&disease_type={{ disease_type }}" class="button"
+                    style="background: #28a745; color: white; border: none; height: 44px; display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 0 1.5rem;">
+                    <span style="margin-right: 8px;">⬇️</span> CSV
+                </a>
+                <a href="/download_history?format=pdf&disease_type={{ disease_type }}" class="button"
+                    style="background: #dc3545; color: white; border: none; height: 44px; display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 0 1.5rem;">
+                    <span style="margin-right: 8px;">📄</span> PDF
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Disease Type</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in history %}
+                <tr>
+                    <td>{{ row['timestamp'] }}</td>
+                    <td>{{ row['disease_type'] }}</td>
+                    <td>
+                        <span
+                            class="badge {{ 'badge-danger' if 'Detected' in row['prediction_result'] and 'No' not in row['prediction_result'] else 'badge-success' }}">
+                            {{ row['prediction_result'] }}
+                        </span>
+                    </td>
+                    <td>{{ row['probability'] }}%</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: var(--text-muted);">No history found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Heart Disease Prediction</h2>
+    <form action="/predict/heart" method="POST">
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Age</label> 
+            <input type="number" name="age" required>
+        </div>
+        <div class="form-group">
+            <label>Sex (1=Male, 0=Female)</label> 
+            <select name="sex">
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Chest Pain Type (0-3)</label> 
+            <input type="number" name="cp" required>
+        </div>
+        <div class="form-group">
+            <label>Resting Blood Pressure</label> 
+            <input type="number" name="trestbps" required>
+        </div>
+        <div class="form-group">
+            <label>Cholesterol</label> 
+            <input type="number" name="chol" required>
+        </div>
+        <div class="form-group">
+            <label>Fasting Blood Sugar > 120 mg/dl</label> 
+            <select name="fbs">
+                <option value="0">False</option>
+                <option value="1">True</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Resting ECG (0-2)</label> 
+            <input type="number" name="restecg" required>
+        </div>
+        <div class="form-group">
+            <label>Max Heart Rate</label> 
+            <input type="number" name="thalach" required>
+        </div>
+        <div class="form-group">
+            <label>Exercise Angina</label> 
+            <select name="exang">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Oldpeak</label> 
+            <input type="text" name="oldpeak" required>
+        </div>
+        <div class="form-group">
+            <label>Slope (0-2)</label> 
+            <input type="number" name="slope" required>
+        </div>
+        <div class="form-group">
+            <label>Major Vessels (0-3)</label> 
+            <input type="number" name="ca" required>
+        </div>
+        <div class="form-group">
+            <label>Thal (0-3)</label> 
+            <input type="number" name="thal" required>
+        </div>
+    </div>
+        <div class="button-group">
+            <button type="submit">Predict</button>
+            <button type="reset">Clear</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card result-box">
+    {% if error %}
+    <h2 style="color: red;">Error Occurred</h2>
+    <p>{{ error }}</p>
+    <a href="/" class="button">Go Back</a>
+    {% else %}
+    <h2>Results for {{ disease_type }}</h2>
+
+    <h3 class="{{ 'result-positive' if 'Detected' in prediction and 'No' not in prediction else 'result-negative' }}">
+        {{ prediction }}
+    </h3>
+
+    <p><strong>Confidence Score:</strong> {{ probability }}%</p>
+
+    {% if metrics %}
+    <div style="margin-top: 1rem; padding: 1rem; background: #eee; border-radius: 8px;">
+        <h4>Model Performance Metrics</h4>
+        <p>Model Accuracy on Test Data: <strong>{{ metrics.accuracy }}%</strong></p>
+        
+        {% if metrics.viz_path %}
+        <div style="margin-top: 15px; text-align: center;">
+            <h5>Training Performance Plot</h5>
+            <img src="{{ metrics.viz_path }}" alt="Training Plot" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); background-color: white;">
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="results-grid">
+        <div class="viz-card">
+            <h4>Risk Probability</h4>
+            <div class="chart-container" style="height: 250px; margin-top: 0;">
+                <canvas id="predictionChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const ctx = document.getElementById('predictionChart').getContext('2d');
+        const confidence = Number("{{ probability }}");
+        const predictionText = "{{ prediction }}";
+
+        let risk, safe;
+
+        // If prediction contains 'No', then the confidence score is for 'Safe'
+        // So Risk = 100 - confidence
+        if (predictionText.includes('No')) {
+            risk = 100 - confidence;
+            safe = confidence;
+        } else {
+            // Prediction is positive (Disease Detected), so confidence is for 'Risk'
+            risk = confidence;
+            safe = 100 - confidence;
+        }
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Risk Probability', 'Safe Probability'],
+                datasets: [{
+                    label: 'Prediction Confidence',
+                    data: [risk, safe],
+                    backgroundColor: [
+                        '#ff6384',
+                        '#36a2eb'
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+
+    <div style="margin-top: 20px;">
+        <a href="/"
+            style="display: inline-block; text-decoration: none; background: var(--primary-color); color: white; padding: 10px 20px; border-radius: 5px; margin-right: 10px;">Back
+            to Dashboard</a>
+        <a href="/history"
+            style="display: inline-block; text-decoration: none; background: #6c757d; color: white; padding: 10px 20px; border-radius: 5px;">View
+            History</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>Welcome to Care AI</h1>
+    <p>Advanced Symptom-based Disease Prediction System using Machine Learning.</p>
+</div>
+
+<div class="grid-container">
+    <a href="/predict/heart" class="disease-card">
+        <h3>❤️ Heart Disease</h3>
+        <p>Predict heart disease risk based on clinical parameters.</p>
+    </a>
+    <a href="/predict/diabetes" class="disease-card">
+        <h3>🩸 Diabetes</h3>
+        <p>Assess diabetes likelihood using health metrics.</p>
+    </a>
+    <a href="/predict/parkinsons" class="disease-card">
+        <h3>🧠 Parkinson's Disease</h3>
+        <p>Analyze vocal patterns for early Parkinson's detection.</p>
+    </a>
+
+</div>
+
+<div class="card" style="margin-top: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2>Recent Activity</h2>
+        <a href="/history" class="button">View All History</a>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Disease Type</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in recent_history %}
+                <tr>
+                    <td>{{ row['timestamp'] }}</td>
+                    <td>{{ row['disease_type'] }}</td>
+                    <td>
+                        <span
+                            class="badge {{ 'badge-danger' if 'Detected' in row['prediction_result'] and 'No' not in row['prediction_result'] else 'badge-success' }}">
+                            {{ row['prediction_result'] }}
+                        </span>
+                    </td>
+                    <td>{{ row['probability'] }}%</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: var(--text-muted);">No recent activity.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
